@@ -7,11 +7,13 @@ import com.amir.blog.Repositories.UserRepo;
 import com.amir.blog.Services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserServiceImplementation implements UserService {
 
     @Autowired
