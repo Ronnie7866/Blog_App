@@ -1,5 +1,6 @@
 package com.amir.blog.Controllers;
 
+import com.amir.blog.Configurations.AppConstants;
 import com.amir.blog.Payloads.ApiResponse;
 import com.amir.blog.Payloads.CategoryDTO;
 import com.amir.blog.Payloads.PostDTO;
@@ -30,25 +31,25 @@ public class PostController {
 
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<PostResponse> getPostByUser(@PathVariable Integer userId,
-                                                      @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-                                                      @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+                                                      @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                      @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize) {
         PostResponse postByUser = postService.getPostByUser(userId, pageNumber, pageSize);
         return ResponseEntity.ok(postByUser);
     }
 
     @GetMapping("/category/{categoryId}/posts")
     public ResponseEntity<PostResponse> getPostByCategory(@PathVariable Integer categoryId,
-                                                          @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-                                                          @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+                                                          @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                          @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize) {
         PostResponse postByCategory = postService.getPostByCategory(categoryId, pageNumber, pageSize);
         return new ResponseEntity<>(postByCategory, HttpStatus.OK);
     }
 
     @GetMapping("posts")
-    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-                                                    @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-                                                    @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-                                                    @RequestParam(value = "sortDirection", defaultValue = "asc", required = false) String sortDirection) { // we use requestParam to extract parameter from url url se parameter nikalne k liye
+    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                    @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+                                                    @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+                                                    @RequestParam(value = "sortDirection", defaultValue = AppConstants.SORT_DIRECTION, required = false) String sortDirection) { // we use requestParam to extract parameter from url url se parameter nikalne k liye
 
         PostResponse allPosts = postService.getAllPosts(pageNumber, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(allPosts, HttpStatus.OK);
