@@ -3,6 +3,8 @@ package com.amir.blog.Controllers;
 import com.amir.blog.Payloads.ApiResponse;
 import com.amir.blog.Payloads.CategoryDTO;
 import com.amir.blog.Payloads.PostDTO;
+import com.amir.blog.Payloads.PostResponse;
+import com.amir.blog.Repositories.PostRepo;
 import com.amir.blog.Services.CategoryService;
 import com.amir.blog.Services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +29,28 @@ public class PostController {
     }
 
     @GetMapping("/user/{userId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostByUser(@PathVariable Integer userId) {
-        List<PostDTO> postByUser = postService.getPostByUser(userId);
+    public ResponseEntity<PostResponse> getPostByUser(@PathVariable Integer userId,
+                                                      @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                      @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+        PostResponse postByUser = postService.getPostByUser(userId, pageNumber, pageSize);
         return ResponseEntity.ok(postByUser);
     }
 
     @GetMapping("/category/{categoryId}/posts")
-    public ResponseEntity<List<PostDTO>> getPostByCategory(@PathVariable Integer categoryId) {
-        List<PostDTO> postByCategory = postService.getPostByCategory(categoryId);
-        return ResponseEntity.ok((postByCategory));
+    public ResponseEntity<PostResponse> getPostByCategory(@PathVariable Integer categoryId,
+                                                          @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                          @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+        PostResponse postByCategory = postService.getPostByCategory(categoryId, pageNumber, pageSize);
+        return new ResponseEntity<>(postByCategory, HttpStatus.OK);
     }
 
     @GetMapping("posts")
-    public ResponseEntity<List<PostDTO>> getAllPosts() {
-        List<PostDTO> allPosts = postService.getAllPosts();
+    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                                                    @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+                                                    @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+                                                    @RequestParam(value = "sortDirection", defaultValue = "asc", required = false) String sortDirection) { // we use requestParam to extract parameter from url url se parameter nikalne k liye
+
+        PostResponse allPosts = postService.getAllPosts(pageNumber, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(allPosts, HttpStatus.OK);
     }
 
@@ -61,4 +71,11 @@ public class PostController {
         PostDTO postDTO1 = postService.updatePost(postDTO, id);
         return new ResponseEntity<>(postDTO1, HttpStatus.OK);
     }
+
+    @GetMapping("/posts/search/{keywords}")
+    public ResponseEntity<List<PostDTO>> searchPostByTitle(@PathVariable("keywords") String keywords) {
+        List<PostDTO> postDTOS = postService.searchPosts(keywords);
+        return new ResponseEntity<>(postDTOS, HttpStatus.OK);
+    }
+
 }

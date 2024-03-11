@@ -2,6 +2,7 @@ package com.amir.blog.Services;
 
 import com.amir.blog.Entities.Post;
 import com.amir.blog.Payloads.PostDTO;
+import com.amir.blog.Payloads.PostResponse;
 
 import java.util.List;
 
@@ -13,13 +14,13 @@ public interface PostService {
 
     void deletePost(Integer id);
 
-    List<PostDTO> getAllPosts();
+    PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy, String SortDirection);
 
     PostDTO getPostById(Integer id);
 
-    List<PostDTO> getPostByCategory(Integer categoryId);
+    PostResponse getPostByCategory(Integer categoryId, Integer pageNumber, Integer pageSize);
 
-    List<PostDTO> getPostByUser(Integer userId);
+    PostResponse getPostByUser(Integer userId, Integer pageNumber, Integer pageSize);
 
     List<PostDTO> searchPosts(String keyword);
 }
