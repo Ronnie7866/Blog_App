@@ -1,6 +1,7 @@
 package com.amir.blog.Services;
 
 import com.amir.blog.Payloads.CommentDTO;
+import com.amir.blog.Payloads.UserDTO;
 
 public interface CommentService {
 

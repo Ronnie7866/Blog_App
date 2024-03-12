@@ -2,11 +2,14 @@ package com.amir.blog.Implementation;
 
 import com.amir.blog.Entities.Comment;
 import com.amir.blog.Entities.Post;
+import com.amir.blog.Entities.User;
 import com.amir.blog.Exceptions.ResourceNotFoundException;
 import com.amir.blog.Payloads.CommentDTO;
 import com.amir.blog.Payloads.PostDTO;
+import com.amir.blog.Payloads.UserDTO;
 import com.amir.blog.Repositories.CommentRepo;
 import com.amir.blog.Repositories.PostRepo;
+import com.amir.blog.Repositories.UserRepo;
 import com.amir.blog.Services.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CommentServiceImplementation implements CommentService {
-    
+
+    @Autowired
+    private UserRepo userRepo;
+
     @Autowired
     private PostRepo postRepo;
     
