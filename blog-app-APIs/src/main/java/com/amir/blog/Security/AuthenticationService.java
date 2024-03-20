@@ -1,5 +1,4 @@
 package com.amir.blog.Security;
-
 import com.amir.blog.Authentication.AuthenticationRequest;
 import com.amir.blog.Authentication.AuthenticationResponse;
 import com.amir.blog.Authentication.RegisterRequest;
@@ -20,9 +19,10 @@ public class AuthenticationService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final JwtService jwtService;
+    private final JwtHelper jwtService;
 
     private final AuthenticationManager authenticationManager;
+
 
     public void register(RegisterRequest request) {
         var user = User.builder()
@@ -32,6 +32,9 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .about(request.getAbout())
                 .build();
+        String password = passwordEncoder.encode(request.getPassword());
+        System.out.println(password);
+        user.setPassword(password);
         userRepo.save(user);
         System.out.println("real password " + request.getPassword());
         System.out.println("encoded password " + passwordEncoder.encode(request.getPassword()));
@@ -47,3 +50,4 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 }
+
